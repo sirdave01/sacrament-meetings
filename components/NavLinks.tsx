@@ -1,21 +1,20 @@
-// creating a reusable navlinks components that will imported into the reusable header component. This will make the code more modular and easier to maintain.
-
-"use client"; // this is a client component, so it can use state and effects
+"use client";
 
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 
+// These are the app's real destinations. Individual meeting details are linked
+// from MeetingCard rather than listed as fixed navigation links.
+
 const links = [
-
+    
     { href: "/", label: "Home" },
-
-    { href: "/about", label: "About" },
-
-    { href: "/projects", label: "Projects" },
-
-    { href: "/contact", label: "Contact" },
-
+    
+    { href: "/meetings", label: "All Meetings" },
+    
+    { href: "/meetings/current", label: "Current Meeting" },
+    
 ];
 
 export default function NavLinks() {
@@ -28,7 +27,9 @@ export default function NavLinks() {
 
             {links.map(({ href, label }) => {
 
-                const isActive = pathname === href;
+                const isActive =
+                    pathname === href ||
+                    (href === "/meetings" && pathname.startsWith("/meetings/") && pathname !== "/meetings/current");
 
                 return (
 

@@ -1,10 +1,20 @@
 import "./globals.css";
 
+import { Lora } from "next/font/google";
+
 import type { ReactNode } from "react";
 
 import Header from "@/components/Header";
 
 import Footer from "@/components/Footer";
+
+const lora = Lora({
+
+  subsets: ["latin"],
+
+  variable: "--font-lora",
+  
+});
 
 export default function RootLayout({
 
@@ -20,7 +30,7 @@ export default function RootLayout({
     
     <html lang="en">
       
-      <body>
+      <body className={lora.className}>
         
         <Header />
         

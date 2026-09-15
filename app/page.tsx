@@ -1,41 +1,63 @@
-import ProjectList from '@/components/ProjectList';
-const projects = [
-  {
-    title: 'CARECONNECT API',
-    description: 'A Node.js API for identifying and managing user profiles in health fields.',
-    technologies: ['ExpressJS', 'NodeJS', 'MongoDB', 'Github Actions', 'Render'],
-    link: 'https://careconnect-api-a8af.onrender.com/'
-  },
-  {
-    title: 'ByteHaven Identification API',
-    description: 'A Node.js API for identifying user profiles.',
-    technologies: ['ExpressJS', 'NodeJS', 'MongoDB', 'Github Actions', 'Render'],
-    link: 'https://bytehaven-identification-api.onrender.com/'
-  }
-];
+import Image from "next/image";
 
-export default function Home() { 
-  
-  return (
-    
-    <main className="container mx-auto px-4 py-12">
+import MeetingCard from "@/components/MeetingCard";
+
+import { getAllMeetings } from "@/lib/meetings-db";
+
+export default function Home() {
+
+    const meetings = getAllMeetings();
+
+    return (
       
-      <section className="text-center py-12">
-        
-        <h1 className="text-4xl font-bold mb-4">My Portfolio</h1>
-        
-        <p className="text-lg text-white-700">
+        <main className="mx-auto max-w-4xl px-4 py-12">
           
-          I am a full-stack developer learning Next.js and React. Here are some of my recent projects.
-          
-        </p>
+            <section className="mb-8">
+              
+                <div className="flex items-center gap-4">
+                  
+                    <Image
+
+                      src="/window.svg"
+
+                      alt="Meeting schedule icon"
+
+                      width={64}
+
+                      height={64}
+
+                    />
+
+                    <h1 className="text-4xl font-bold">Sacrament Meetings</h1>
+
+                </div>
+                
+                <p className="mt-2 text-white text-lg">
+                  
+                    Select a meeting to view its complete agenda.
+                    
+                </p>
+                
+            </section>
+
+            <section aria-labelledby="meetings-heading">
+              
+                <h2 id="meetings-heading" className="sr-only">Available meetings</h2>
+                
+                <div className="grid gap-4 md:grid-cols-2">
+                  
+                    {meetings.map((meeting) => (
+                      
+                        <MeetingCard key={meeting.id} meeting={meeting} />
+                        
+                    ))}
+                    
+                </div>
+                
+            </section>
+            
+        </main>
         
-      </section>
-      
-      <ProjectList projects={projects} />
-      
-    </main>
+    );
     
-  );
-  
 }
