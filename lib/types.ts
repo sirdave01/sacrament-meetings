@@ -1,3 +1,6 @@
+// creating the export "type" for the meeting types, and the interfaces for Hymn, 
+// SpeakerItem, WardBusinessItem, and SacramentMeeting.
+
 export type MeetingType =
     
     | "testimony"
