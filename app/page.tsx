@@ -6,6 +6,7 @@ import { getAllMeetings } from "@/lib/meetings-db";
 
 export default function Home() {
 
+    // Read the in-memory list of meetings and display a landing-page summary.
     const meetings = getAllMeetings();
 
     return (
