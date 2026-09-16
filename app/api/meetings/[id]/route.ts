@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getMeetingById } from "@/lib/meetings-db";
 
-// This route returns one meeting by its numeric id from the URL segment.
+// GET /api/meetings/[id]
+// Returns the matching meeting, or a clear HTTP error when the input is invalid.
 export async function GET(
 
   _request: Request,
@@ -13,7 +14,22 @@ export async function GET(
 
   const { id } = await params;
 
-  const meeting = getMeetingById(Number(id));
+  // The route parameter must be a real numeric ID.
+  const meetingId = Number(id);
+
+  if (!id || Number.isNaN(meetingId) || !Number.isInteger(meetingId) || meetingId <= 0) {
+
+    return NextResponse.json(
+
+      { error: "The meeting id must be a valid positive number." },
+
+      { status: 400 }
+
+    );
+
+  }
+
+  const meeting = getMeetingById(meetingId);
 
   if (!meeting) {
 

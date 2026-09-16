@@ -16,15 +16,15 @@ export default function MeetingCard({ meeting }: MeetingCardProps) {
 
         <Link href={`/meetings/${meeting.id}`} className="block p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
 
-            <h2 className="text-xl font-semibold mb-2">
+            <h2 className="text-xl font-semibold mb-2 text-black">
 
                 {meeting.meetingType.charAt(0).toUpperCase() + meeting.meetingType.slice(1)} Sacrament Meeting
 
             </h2>
 
-            <p className="text-gray-600 mb-1">Date: {new Date(meeting.date).toLocaleDateString()}</p>
+            <p className="text-black mb-1">Date: {new Date(meeting.date).toLocaleDateString()}</p>
             
-            <p className="text-gray-600">Presiding: {meeting.presiding}</p>
+            <p className="text-black">Presiding: {meeting.presiding}</p>
 
         </Link>
 

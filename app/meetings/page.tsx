@@ -1,11 +1,13 @@
 import MeetingCard from "@/components/MeetingCard";
 
-import { getAllMeetings } from "@/lib/meetings-db";
+import { getMeetings } from "@/lib/meetings-db";
 
 export default function MeetingsPage() {
 
-  // Pull all stored meetings so the list page can render each one as a card.
-  const meetings = getAllMeetings();
+  // Use the shared in-memory data layer directly here.
+  // Calling the app route from a server component can suspend while the same app tries
+  // to resolve its own API endpoint, so this keeps the page render predictable.
+  const meetings = getMeetings();
 
   return (
 

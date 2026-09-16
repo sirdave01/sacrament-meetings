@@ -233,13 +233,15 @@ const meetings: SacramentMeeting[] = [
     }
 ];
 
-// creating an export function to get all meetings or filter by date
+// Create a reusable lookup function that can optionally filter by date.
+// This matches the route handler expectation for ?date=YYYY-MM-DD.
+export function getMeetings(date?: string | null): SacramentMeeting[] {
 
-export function getAllMeetings(date?: string): SacramentMeeting[] {
+    const normalizedDate = date?.trim();
 
-    if (date) {
+    if (normalizedDate) {
 
-        return meetings.filter(meeting => meeting.date === date);
+        return meetings.filter((meeting) => meeting.date === normalizedDate);
 
     }
 
@@ -247,10 +249,12 @@ export function getAllMeetings(date?: string): SacramentMeeting[] {
 
 }
 
-// creating the export function to get a meeting by its ID
+// Keep the original helper name as a compatibility alias for the rest of the app.
+export const getAllMeetings = getMeetings;
 
+// Create the export function to get a meeting by its ID.
 export function getMeetingById(id: number): SacramentMeeting | undefined {
 
-    return meetings.find(meeting => meeting.id === id);
+    return meetings.find((meeting) => meeting.id === id);
 
 }

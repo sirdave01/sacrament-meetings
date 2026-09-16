@@ -14,12 +14,12 @@ export default async function MeetingDetailPage({
 
 }) {
 
-  // Next.js provides the dynamic route parameter as a Promise in this app setup.
   const { id } = await params;
 
   const meetingId = Number(id);
 
-  // Match the URL id to the in-memory meeting record, or show a 404 page.
+  // The route data should be loaded from the shared app logic instead of fetching the same app
+  // API endpoint from inside the server-rendered page, which can leave the page suspended.
   const meeting = getMeetingById(meetingId);
 
   if (!meeting) {

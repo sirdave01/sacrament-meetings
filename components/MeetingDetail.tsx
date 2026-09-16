@@ -24,33 +24,33 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                     
 				</Link>
                 
-				<h1 className="mt-2 text-3xl font-bold">
+				<h1 className="mt-2 text-3xl font-bold text-black">
                     
 					{meeting.meetingType.charAt(0).toUpperCase() + meeting.meetingType.slice(1)} Sacrament Meeting
                     
 				</h1>
                 
-				<p className="text-gray-600">{new Date(meeting.date).toLocaleDateString()}</p>
+				<p className="text-black">{new Date(meeting.date).toLocaleDateString()}</p>
                 
 			</div>
 
 			<section>
                 
-				<h2 className="text-xl font-semibold">Leadership</h2>
+				<h2 className="text-xl font-semibold text-black">Leadership</h2>
                 
-				<p>Presiding: {meeting.presiding}</p>
+				<p className="text-black">Presiding: {meeting.presiding}</p>
                 
-				<p>Conducting: {meeting.conducting}</p>
+				<p className="text-black">Conducting: {meeting.conducting}</p>
                 
 			</section>
 
 			<section>
                 
-				<h2 className="text-xl font-semibold">Opening</h2>
+				<h2 className="text-xl font-semibold text-black">Opening</h2>
                 
-				<p>Hymn {meeting.openingHymn.number}: {meeting.openingHymn.title}</p>
+				<p className="text-black">Hymn {meeting.openingHymn.number}: {meeting.openingHymn.title}</p>
                 
-				<p>Prayer: {meeting.openingPrayer}</p>
+				<p className="text-black">Prayer: {meeting.openingPrayer}</p>
                 
 			</section>
 
@@ -60,13 +60,15 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 				<section>
                     
-					<h2 className="text-xl font-semibold">Announcements</h2>
+					<h2 className="text-xl font-semibold text-black">Announcements</h2>
                     
 					<ul className="list-disc pl-5">
                         
 						{meeting.announcements.map((announcement) => (
                             
-							<li key={announcement}>{announcement}</li>
+							<li key={announcement} className="text-black">
+                                {announcement}
+                            </li>
                             
 						))}
                         
@@ -78,7 +80,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
 
 			<section>
                 
-				<h2 className="text-xl font-semibold">Ward Business</h2>
+				<h2 className="text-xl font-semibold text-black">Ward Business</h2>
                 
 				{meeting.wardBusiness.length > 0 ? (
                     
@@ -86,7 +88,9 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                         
 						{meeting.wardBusiness.map((item) => (
                             
-							<li key={item.description}>{item.description}</li>
+							<li key={item.description} className="text-black">
+                                {item.description}
+                            </li>
                             
 						))}
                         
@@ -94,24 +98,24 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                     
 				) : (
                     
-					<p>No ward business.</p>
+					<p className="text-black">No ward business.</p>
                     
 				)}
                 
-				<p>Stake business: {meeting.stakeBusiness ? "Yes" : "No"}</p>
+				<p className="text-black">Stake business: {meeting.stakeBusiness ? "Yes" : "No"}</p>
                 
 			</section>
 
 			<section>
-				<h2 className="text-xl font-semibold">Sacrament and Speakers</h2>
+				<h2 className="text-xl font-semibold text-black">Sacrament and Speakers</h2>
                 
-				<p>Hymn {meeting.sacramentHymn.number}: {meeting.sacramentHymn.title}</p>
+				<p className="text-black">Hymn {meeting.sacramentHymn.number}: {meeting.sacramentHymn.title}</p>
                 
 				<ul className="list-disc pl-5">
                     
 					{meeting.speakers.map((speaker) => (
                         
-						<li key={`${speaker.name}-${speaker.type}`}>
+						<li key={`${speaker.name}-${speaker.type}`} className="text-black">
                             
 							{speaker.name}{speaker.topic ? `: ${speaker.topic}` : ""} ({speaker.type})
                             
@@ -125,11 +129,11 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
 
 			<section>
                 
-				<h2 className="text-xl font-semibold">Closing</h2>
+				<h2 className="text-xl font-semibold text-black">Closing</h2>
                 
-				<p>Hymn {meeting.closingHymn.number}: {meeting.closingHymn.title}</p>
+				<p className="text-black">Hymn {meeting.closingHymn.number}: {meeting.closingHymn.title}</p>
                 
-				<p>Prayer: {meeting.closingPrayer}</p>
+				<p className="text-black">Prayer: {meeting.closingPrayer}</p>
                 
 			</section>
             
