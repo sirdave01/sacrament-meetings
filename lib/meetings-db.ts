@@ -1,260 +1,141 @@
-// this is an in-memory data module that holds
-// at least Five Meeting Records and export query functions
+// switching to SQL DB on NEON - PostgreSQL (Vercel)
 
-// importing the types.ts files to be used in the in-memory data module
+import { neon } from "@neondatabase/serverless";
 
 import type { SacramentMeeting } from "./types";
 
-// creating the meetings array using the information in the SacramentMeeting Interface
-const meetings: SacramentMeeting[] = [
-
-    {
-
-        id: 1,
-
-        date: "2026-05-03",
-
-        meetingType: "regular",
-
-        presiding: "Bishop Smith",
-
-        conducting: "Brother Jones",
-
-        openingHymn: { number: 2, title: "The Spirit of God" },
-
-        openingPrayer: "Sister Williams",
-
-        wardBusiness: [{ description: "Sustaining of new Primary president" }],
-
-        stakeBusiness: false,
-
-        sacramentHymn: { number: 169, title: "In Remembrance of Thy Suffering" },
-
-        speakers: [
-
-            { name: "Sister Brown", topic: "Faith in Jesus Christ", type: "speaker" },
-
-            { name: "Youth Choir", topic: "", type: "musical-number" }
-
-        ],
-
-        closingHymn: { number: 31, title: "O God, Our Help in Ages Past" },
-
-        closingPrayer: "Brother Davis",
-
-        announcements: ["Ward temple night: May 10"]
-
-    },
-
-    {
-
-        id: 2,
-
-        date: "2026-05-10",
-
-        meetingType: "stake",
-
-        presiding: "Stake President Johnson",
-
-        conducting: "Brother Lee",
-
-        openingHymn: { number: 1, title: "The Morning Breaks" },
-
-        openingPrayer: "Brother Kim",
-
-        wardBusiness: [],
-
-        stakeBusiness: true,
-
-        sacramentHymn: { number: 174, title: "I Stand All Amazed" },
-
-        speakers: [
-        
-            { name: "Brother Martinez", topic: "The Atonement of Jesus Christ", type: "speaker" },
-            
-            { name: "Sister Garcia", topic: "The Plan of Salvation", type: "speaker" }
-
-        ],
-
-        closingHymn: { number: 34, title: "Come, Come, Ye Saints" },
-
-        closingPrayer: "Sister Hernandez",
-
-        announcements: ["Stake youth conference: May 15"]
-    },
-
-    {
-
-        id: 3,
-
-        date: "2026-05-17",
-
-        meetingType: "general",
-
-        presiding: "President Thompson",
-
-        conducting: "Brother Wilson",
-
-        openingHymn: { number: 3, title: "Now Let Us Rejoice" },
-
-        openingPrayer: "Sister Anderson",
-
-        wardBusiness: [],
-
-        stakeBusiness: false,
-
-        sacramentHymn: { number: 175, title: "I Know That My Redeemer Lives" },
-
-        speakers: [
-
-            { name: "Brother Taylor", topic: "The Restoration of the Gospel", type: "speaker" },
-
-            { name: "Sister Thomas", topic: "The Book of Mormon", type: "speaker" }
-
-        ],
-
-        closingHymn: { number: 35, title: "Rejoice, the Lord is King" },
-
-        closingPrayer: "Brother White",
-
-        announcements: ["General Conference: May 21-22"]
-    },
-
-    {
-
-        id: 4,
-
-        date: "2026-05-24",
-
-        meetingType: "testimony",
-
-        presiding: "Bishop Smith",
-
-        conducting: "Brother Jones",
-
-        openingHymn: { number: 4, title: "Come, Follow Me" },
-
-        openingPrayer: "Sister Williams",
-
-        wardBusiness: [{ description: "Sustaining of new Relief Society president" }],
-
-        stakeBusiness: false,
-
-        sacramentHymn: { number: 176, title: "I Need Thee Every Hour" },
-
-        speakers: [
-
-            { name: "Sister Brown", topic: "Testimony of Jesus Christ", type: "speaker" },
-
-            { name: "Brother Davis", topic: "Testimony of the Book of Mormon", type: "speaker" }
-
-        ],
-
-        closingHymn: { number: 36, title: "Jesus, the Very Thought of Thee" },
-
-        closingPrayer: "Brother Davis",
-
-        announcements: ["Ward service project: May 30"]
-    },
-
-    {
-
-        id: 5,
-
-        date: "2026-05-31",
-
-        meetingType: "regular",
-
-        presiding: "Bishop Smith",
-
-        conducting: "Brother Jones",
-
-        openingHymn: { number: 5, title: "The Spirit of God" },
-
-        openingPrayer: "Sister Williams",
-        
-        wardBusiness: [{ description: "Sustaining of new Young Men president" }],
-
-        stakeBusiness: false,
-
-        sacramentHymn: { number: 177, title: "I Stand All Amazed" },
-
-        speakers: [
-
-            { name: "Brother Martinez", topic: "Faith in Jesus Christ", type: "speaker" },
-
-            { name: "Sister Garcia", topic: "The Atonement of Jesus Christ", type: "speaker" }
-
-        ],
-
-        closingHymn: { number: 37, title: "Come, Come, Ye Saints" },
-
-        closingPrayer: "Sister Hernandez",
-
-        announcements: ["Ward youth activity: June 5"]
-    },
-
-    {
-
-        id: 6,
-
-        date: "2026-06-07",
-
-        meetingType: "stake",
-
-        presiding: "Stake President Johnson",
-
-        conducting: "Brother Lee",
-
-        openingHymn: { number: 6, title: "The Morning Breaks" },
-
-        openingPrayer: "Brother Kim",
-
-        wardBusiness: [],
-
-        stakeBusiness: true,
-
-        sacramentHymn: { number: 178, title: "I Know That My Redeemer Lives" },
-
-        speakers: [
-
-            
-            { name: "Brother Taylor", topic: "The Restoration of the Gospel", type: "speaker" },
-            
-            { name: "Sister Thomas", topic: "The Book of Mormon", type: "speaker" }
-        
-        ],
-
-        closingHymn: { number: 38, title: "Rejoice, the Lord is King" },
-
-        closingPrayer: "Sister White",
-
-        announcements: ["Stake youth conference: June 12"]
-    }
-];
-
-// Create a reusable lookup function that can optionally filter by date.
-// This matches the route handler expectation for ?date=YYYY-MM-DD.
-export function getMeetings(date?: string | null): SacramentMeeting[] {
+const sql = neon(process.env.DATABASE_URL!);
+
+const ITEMS_PER_PAGE = 5;
+
+type MeetingRow = {
+    id: number;
+    date: string | Date;
+    meeting_type: SacramentMeeting["meetingType"];
+    presiding: string;
+    conducting: string;
+    announcements?: string[];
+    opening_hymn: SacramentMeeting["openingHymn"];
+    opening_prayer: string;
+    ward_business: SacramentMeeting["wardBusiness"];
+    stake_business: boolean;
+    sacrament_hymn: SacramentMeeting["sacramentHymn"];
+    speakers: SacramentMeeting["speakers"];
+    closing_hymn: SacramentMeeting["closingHymn"];
+    closing_prayer: string;
+};
+
+function mapMeeting(meeting: MeetingRow): SacramentMeeting {
+    return {
+        id: meeting.id,
+        date: meeting.date instanceof Date
+            ? meeting.date.toISOString().split("T")[0]
+            : meeting.date,
+        meetingType: meeting.meeting_type,
+        presiding: meeting.presiding,
+        conducting: meeting.conducting,
+        announcements: meeting.announcements,
+        openingHymn: meeting.opening_hymn,
+        openingPrayer: meeting.opening_prayer,
+        wardBusiness: meeting.ward_business,
+        stakeBusiness: meeting.stake_business,
+        sacramentHymn: meeting.sacrament_hymn,
+        speakers: meeting.speakers,
+        closingHymn: meeting.closing_hymn,
+        closingPrayer: meeting.closing_prayer,
+    };
+}
+
+const MEETING_COLUMNS = sql`id, date, meeting_type, presiding, conducting,
+    announcements, opening_hymn, opening_prayer, ward_business, stake_business,
+    sacrament_hymn, speakers, closing_hymn, closing_prayer`;
+
+export async function getMeetings(date?: string | null): Promise<SacramentMeeting[]> {
 
     const normalizedDate = date?.trim();
 
     if (normalizedDate) {
 
-        return meetings.filter((meeting) => meeting.date === normalizedDate);
-
+                const rows = await sql`
+        
+                SELECT ${MEETING_COLUMNS}
+      FROM meetings
+      WHERE date = ${normalizedDate}
+      ORDER BY date ASC
+    ` as unknown as MeetingRow[];
+    
+                return rows.map(mapMeeting);
     }
 
-    return meetings;
+        const rows = await sql`
+            SELECT ${MEETING_COLUMNS}
+            FROM meetings
+            ORDER BY date ASC
+        ` as unknown as MeetingRow[];
 
+        return rows.map(mapMeeting);
+}
+
+export async function getFilteredMeetings(
+    query: string,
+    page: number,
+    pageSize = ITEMS_PER_PAGE,
+): Promise<SacramentMeeting[]> {
+    const offset = Math.max(0, page - 1) * pageSize;
+    const search = `%${query.trim()}%`;
+
+    const rows = await sql`
+        SELECT ${MEETING_COLUMNS}
+        FROM meetings
+        WHERE meeting_type::text ILIKE ${search}
+             OR presiding ILIKE ${search}
+             OR conducting ILIKE ${search}
+             OR announcements::text ILIKE ${search}
+             OR speakers::text ILIKE ${search}
+        ORDER BY date ASC
+        LIMIT ${pageSize}
+        OFFSET ${offset}
+    ` as unknown as MeetingRow[];
+
+    return rows.map(mapMeeting);
+}
+
+export async function fetchFilteredMeetings(
+    query: string,
+    currentPage: number,
+): Promise<SacramentMeeting[]> {
+    return getFilteredMeetings(query, currentPage, ITEMS_PER_PAGE);
+}
+
+export async function fetchMeetingsPages(query: string): Promise<number> {
+    const search = `%${query.trim()}%`;
+
+    const rows = await sql`
+        SELECT COUNT(*)::int AS count
+        FROM meetings
+        WHERE meeting_type::text ILIKE ${search}
+             OR presiding ILIKE ${search}
+             OR conducting ILIKE ${search}
+             OR announcements::text ILIKE ${search}
+             OR speakers::text ILIKE ${search}
+    ` as unknown as Array<{ count: number }>;
+
+    const count = Number(rows[0]?.count ?? 0);
+
+    return Math.ceil(count / ITEMS_PER_PAGE);
 }
 
 // Keep the original helper name as a compatibility alias for the rest of the app.
 export const getAllMeetings = getMeetings;
 
 // Create the export function to get a meeting by its ID.
-export function getMeetingById(id: number): SacramentMeeting | undefined {
+export async function getMeetingById(id: number): Promise<SacramentMeeting | null> {
+    const rows = await sql`
+        SELECT ${MEETING_COLUMNS}
+        FROM meetings
+        WHERE id = ${id}
+    ` as unknown as MeetingRow[];
 
-    return meetings.find((meeting) => meeting.id === id);
+    return rows[0] ? mapMeeting(rows[0]) : null;
 
 }

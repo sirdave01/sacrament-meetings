@@ -2,10 +2,10 @@ import { redirect } from "next/navigation";
 
 import { getAllMeetings } from "@/lib/meetings-db";
 
-export default function CurrentMeetingPage() {
+export default async function CurrentMeetingPage() {
 
   // Use the meeting date closest to today as the current Sunday meeting.
-  const meetings = getAllMeetings();
+  const meetings = await getAllMeetings();
 
   const today = new Date();
 

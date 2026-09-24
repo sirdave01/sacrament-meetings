@@ -4,10 +4,10 @@ import MeetingCard from "@/components/MeetingCard";
 
 import { getAllMeetings } from "@/lib/meetings-db";
 
-export default function Home() {
+export default async function Home() {
 
     // Read the in-memory list of meetings and display a landing-page summary.
-    const meetings = getAllMeetings();
+    const meetings = await getAllMeetings();
 
     return (
       
