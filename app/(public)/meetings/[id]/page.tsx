@@ -14,6 +14,11 @@ async function MeetingDetailContent({ id }: { id: string }) {
   // Convert the dynamic route string to the numeric database key.
   const meetingId = Number(id);
 
+  // Reject malformed IDs before they can cause a database conversion error.
+  if (!Number.isInteger(meetingId) || meetingId < 1) {
+    notFound();
+  }
+
   // The route data should be loaded from the shared app logic instead of fetching the same app
   // API endpoint from inside the server-rendered page, which can leave the page suspended.
   const meeting = await getMeetingById(meetingId);

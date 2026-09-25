@@ -17,7 +17,10 @@ export default function Pagination({ totalPages }: PaginationProps) {
   const searchParams = useSearchParams();
   // Normalize invalid or absent page values to the first page.
   const requestedPage = Number(searchParams.get("page"));
-  const currentPage = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  // Clamp stale or hand-edited page values to the final available result page.
+  const currentPage = Number.isInteger(requestedPage) && requestedPage > 0
+    ? Math.min(requestedPage, totalPages)
+    : 1;
 
   // Avoid rendering controls that cannot change the result set.
   if (totalPages <= 1) {
@@ -42,12 +45,13 @@ export default function Pagination({ totalPages }: PaginationProps) {
           Previous
         </Link>
       ) : (
-        <span className="rounded-md border border-gray-200 px-4 py-2 text-sm text-gray-400">
+        <span className="rounded-md border border-gray-200 px-4 py-2 text-sm text-gray-600">
           Previous
         </span>
       )}
 
-      <span aria-current="page" className="text-sm font-medium text-white">
+      {/* Use dark text because the page background is light. */}
+      <span aria-current="page" className="text-sm font-medium text-gray-800">
         Page {currentPage} of {totalPages}
       </span>
 
@@ -59,7 +63,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
           Next
         </Link>
       ) : (
-        <span className="rounded-md border border-gray-200 px-4 py-2 text-sm text-gray-400">
+        <span className="rounded-md border border-gray-200 px-4 py-2 text-sm text-gray-600">
           Next
         </span>
       )}

@@ -10,6 +10,11 @@ export default async function CurrentMeetingPage() {
   // Load all available dates because the closest meeting may be in the past or future.
   const meetings = await getAllMeetings();
 
+  // The index is the useful recovery route when no meetings have been scheduled yet.
+  if (meetings.length === 0) {
+    redirect("/meetings");
+  }
+
   // Use the current instant as the reference for comparing meeting dates.
   const today = new Date();
 

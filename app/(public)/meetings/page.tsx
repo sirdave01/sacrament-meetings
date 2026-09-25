@@ -37,7 +37,8 @@ export default async function MeetingsPage({ searchParams }: MeetingsPageProps) 
       {/* Keep the page title, search control, and results context together. */}
       <header className="mb-8">
         <h1 className="text-4xl font-bold">All Meetings</h1>
-        <p className="mt-2 text-white">Browse the latest sacrament meeting schedule.</p>
+        {/* Keep supporting text readable against the light page background. */}
+        <p className="mt-2 text-gray-800">Browse the latest sacrament meeting schedule.</p>
         <div className="mt-6">
           {/* Reset the input when the server-rendered query changes. */}
           <MeetingSearch key={query} initialQuery={query} />

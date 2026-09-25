@@ -54,7 +54,8 @@ const MeetingFormSchema = z.object({
     sacramentHymn: jsonValue(hymnSchema, "Enter a valid hymn with a number and title."),
     speakers: jsonValue(z.array(z.object({
         name: z.string().trim().min(1),
-        topic: z.string().trim().min(1),
+        // Musical-number entries may not have a spoken topic.
+        topic: z.string(),
         type: z.enum(["speaker", "musical-number"]),
     })), "Enter a valid JSON array of speakers and musical numbers."),
     closingHymn: jsonValue(hymnSchema, "Enter a valid hymn with a number and title."),

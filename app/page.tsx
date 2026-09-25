@@ -29,7 +29,8 @@ export default async function Home() {
                     <h1 className="text-4xl font-bold">Sacrament Meetings</h1>
                 </div>
                 {/* Briefly describe what selecting a card does. */}
-                <p className="mt-2 text-white text-lg">
+                {/* Use dark copy on the default white page background for readable contrast. */}
+                <p className="mt-2 text-gray-800 text-lg">
                     Select a meeting to view its complete agenda.
                 </p>
             </section>
