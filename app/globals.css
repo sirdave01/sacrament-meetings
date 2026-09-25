@@ -1,26 +1,42 @@
+/* Load Tailwind's generated utility classes and theme support. */
 @import "tailwindcss";
 
+/* Define the root colors used by semantic background and foreground tokens. */
 :root {
+  /* Default page canvas for light color-scheme preferences. */
   --background: #ffffff;
+  /* Default text color for the main document. */
   --foreground: #171717;
 }
 
+/* Connect CSS variables to Tailwind's utility names. */
 @theme inline {
+  /* Allow utilities to reference the page background token. */
   --color-background: var(--background);
+  /* Allow utilities to reference the page text token. */
   --color-foreground: var(--foreground);
+  /* Expose the configured sans-serif font to Tailwind utilities. */
   --font-sans: var(--font-geist-sans);
+  /* Expose the configured monospace font to Tailwind utilities. */
   --font-mono: var(--font-geist-mono);
 }
 
+/* Swap semantic colors when the operating system requests dark mode. */
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Use a near-black canvas in dark mode. */
     --background: #0a0a0a;
+    /* Keep body text readable against the dark canvas. */
     --foreground: #ededed;
   }
 }
 
+/* Apply the semantic page colors and base type to the document. */
 body {
+  /* Read the active color from the root theme token. */
   background: var(--background);
+  /* Keep body text synchronized with the active color scheme. */
   color: var(--foreground);
+  /* Provide a system fallback if the configured web font is unavailable. */
   font-family: Arial, Helvetica, sans-serif;
 }

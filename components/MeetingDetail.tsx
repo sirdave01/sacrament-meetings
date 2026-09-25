@@ -1,5 +1,7 @@
+// Provide client-side navigation back to the meeting index.
 import Link from "next/link";
 
+// Type the full record displayed by this read-only agenda view.
 import type { SacramentMeeting } from "@/lib/types";
 
 interface MeetingDetailProps {
@@ -12,10 +14,12 @@ interface MeetingDetailProps {
 
 export default function MeetingDetail({ meeting }: MeetingDetailProps) {
     
+	// Group agenda details into named sections so the page is easy to scan.
 	return (
         
 		<article className="space-y-6 rounded-lg bg-white p-6 shadow-md">
             
+			{/* Identify the meeting and offer a route back to the full list. */}
 			<div>
                 
 				<Link href="/meetings" className="text-sm text-blue-600 hover:underline">
@@ -34,6 +38,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 			</div>
 
+			{/* Show the people assigned to lead the meeting. */}
 			<section>
                 
 				<h2 className="text-xl font-semibold text-black">Leadership</h2>
@@ -44,6 +49,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 			</section>
 
+			{/* Present the opening hymn and prayer together. */}
 			<section>
                 
 				<h2 className="text-xl font-semibold text-black">Opening</h2>
@@ -54,7 +60,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 			</section>
 
-			{/* announcements is optional in SacramentMeeting, so render it only when present. */}
+			{/* Omit this section when there are no optional announcements to display. */}
             
 			{meeting.announcements && meeting.announcements.length > 0 && (
                 
@@ -78,6 +84,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 			)}
 
+			{/* Show ward agenda items and whether stake business is included. */}
 			<section>
                 
 				<h2 className="text-xl font-semibold text-black">Ward Business</h2>
@@ -106,6 +113,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 			</section>
 
+			{/* Place the sacrament hymn and ordered speaker entries in one section. */}
 			<section>
 				<h2 className="text-xl font-semibold text-black">Sacrament and Speakers</h2>
                 
@@ -127,6 +135,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 
 			</section>
 
+			{/* Finish with the closing hymn and prayer. */}
 			<section>
                 
 				<h2 className="text-xl font-semibold text-black">Closing</h2>
