@@ -12,11 +12,12 @@ import type { SacramentMeeting } from "@/lib/types";
 interface MeetingCardProps {
 
     meeting: SacramentMeeting;
+    canManage: boolean;
 
 }
 
-// Present a meeting summary and its edit/delete controls.
-export default function MeetingCard({ meeting }: MeetingCardProps) {
+// Present a meeting summary and show management controls only to the authorized owner.
+export default function MeetingCard({ meeting, canManage }: MeetingCardProps) {
 
     // Link the summary to its detail route and keep mutations outside that link.
     return (
@@ -30,15 +31,15 @@ export default function MeetingCard({ meeting }: MeetingCardProps) {
                 <p className="mb-1 text-black">Date: {new Date(meeting.date).toLocaleDateString()}</p>
                 <p className="text-black">Presiding: {meeting.presiding}</p>
             </Link>
-            {/* Keep edit navigation and the independent delete form side by side. */}
-            <div className="mt-4 flex gap-3">
-                <Link href={`/meetings/${meeting.id}/edit`} className="rounded border px-3 py-1 text-sm font-semibold text-black">Edit</Link>
-                {/* Include only this card's ID so the action targets the correct record. */}
-                <form action={deleteMeeting}>
-                    <input type="hidden" name="id" value={meeting.id} />
-                    <button type="submit" className="rounded border border-red-700 px-3 py-1 text-sm font-semibold text-red-700">Delete</button>
-                </form>
-            </div>
+            {canManage && (
+                <div className="mt-4 flex gap-3">
+                    <Link href={`/meetings/${meeting.id}/edit`} className="rounded border px-3 py-1 text-sm font-semibold text-black">Edit</Link>
+                    <form action={deleteMeeting}>
+                        <input type="hidden" name="id" value={meeting.id} />
+                        <button type="submit" className="rounded border border-red-700 px-3 py-1 text-sm font-semibold text-red-700">Delete</button>
+                    </form>
+                </div>
+            )}
         </article>
 
     );

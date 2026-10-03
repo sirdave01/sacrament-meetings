@@ -15,6 +15,7 @@ const links = [
     { href: "/", label: "Home" },
     
     { href: "/meetings", label: "All Meetings" },
+    { href: "/login", label: "Admin Sign In" },
     
 ];
 

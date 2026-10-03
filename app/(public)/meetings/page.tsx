@@ -2,9 +2,16 @@
 import MeetingCard from "@/components/MeetingCard";
 import MeetingSearch from "@/components/MeetingSearch";
 import Pagination from "@/components/Pagination";
+import type { Metadata } from "next";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 
 // Query records and page counts through the shared database helpers.
 import { fetchFilteredMeetings, fetchMeetingsPages } from "@/lib/meetings-db";
+
+export const metadata: Metadata = {
+  title: "All Meetings",
+  description: "Browse upcoming and past Osigwe Ward sacrament meeting schedules and agendas.",
+};
 
 // Next supplies search parameters asynchronously, and repeated query keys may form arrays.
 interface MeetingsPageProps {
@@ -30,6 +37,7 @@ export default async function MeetingsPage({ searchParams }: MeetingsPageProps) 
   const currentPage = totalPages > 0 ? Math.min(page, totalPages) : 1;
   // Fetch just the matching results for the normalized page.
   const meetings = await fetchFilteredMeetings(query, currentPage);
+  const canManage = await isAuthorizedAdmin();
 
   return (
     // Constrain the page width while leaving the list as a primary page region.
@@ -48,7 +56,7 @@ export default async function MeetingsPage({ searchParams }: MeetingsPageProps) 
       {/* Render each result with its stable database ID as the React key. */}
       <section aria-label="Meeting list" className="grid gap-4 md:grid-cols-2">
         {meetings.map((meeting) => (
-          <MeetingCard key={meeting.id} meeting={meeting} />
+          <MeetingCard key={meeting.id} meeting={meeting} canManage={canManage} />
         ))}
       </section>
 

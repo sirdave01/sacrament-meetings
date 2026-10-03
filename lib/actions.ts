@@ -6,6 +6,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 // Validate untrusted form data before converting or storing it.
 import { z } from "zod";
+import { AuthError } from "next-auth";
+
+import { signIn } from "@/auth";
+import { requireAdminSession } from "@/lib/admin-auth";
 
 import {
     createMeeting as insertMeeting,
@@ -68,6 +72,28 @@ export type State = {
     message?: string | null;
 };
 
+export async function authenticate(_previousState: string | undefined, formData: FormData): Promise<string | undefined> {
+    const rawCallbackUrl = formData.get("callbackUrl");
+    const callbackUrl = typeof rawCallbackUrl === "string" && rawCallbackUrl.startsWith("/") && !rawCallbackUrl.startsWith("//")
+        ? rawCallbackUrl
+        : "/meetings/new";
+
+    try {
+        await signIn("credentials", {
+            email: formData.get("email"),
+            password: formData.get("password"),
+            redirectTo: callbackUrl,
+        });
+    } catch (error) {
+        if (error instanceof AuthError) {
+            return error.type === "CredentialsSignin"
+                ? "Invalid email or password."
+                : "Unable to sign in. Please try again.";
+        }
+        throw error;
+    }
+}
+
 // Read named controls from FormData and normalize the optional checkbox value.
 function getFormValues(formData: FormData) {
     return {
@@ -110,6 +136,7 @@ function toMeeting(data: z.infer<typeof MeetingFormSchema>): Omit<SacramentMeeti
 
 // Validate and insert a meeting, returning field errors without writing invalid input.
 export async function createMeeting(prevState: State, formData: FormData): Promise<State> {
+    await requireAdminSession();
     // The previous state is part of React's useActionState signature but not needed here.
     void prevState;
     // safeParse keeps validation failures in the form state rather than throwing.
@@ -138,6 +165,7 @@ export async function createMeeting(prevState: State, formData: FormData): Promi
 
 // Validate and replace the meeting identified by the ID bound by the edit page.
 export async function updateMeeting(id: number, prevState: State, formData: FormData): Promise<State> {
+    await requireAdminSession();
     // Keep React's action-state signature while relying on fresh validation results.
     void prevState;
     // Refuse the write unless every submitted field passes the shared schema.
@@ -166,6 +194,7 @@ export async function updateMeeting(id: number, prevState: State, formData: Form
 
 // Validate the hidden form ID, delete the matching row, and return to the list.
 export async function deleteMeeting(formData: FormData): Promise<void> {
+    await requireAdminSession();
     // Only accept a plain positive integer string from the submitted form.
     const rawId = formData.get("id");
     const id = typeof rawId === "string" && /^\d+$/.test(rawId) ? Number(rawId) : NaN;

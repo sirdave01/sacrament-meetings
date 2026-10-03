@@ -6,6 +6,7 @@ import { Lora } from "next/font/google";
 
 // Type the shared page slot accepted by the root layout.
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 
 // Keep the site header consistent across every route.
 import Header from "@/components/Header";
@@ -20,6 +21,21 @@ const lora = Lora({
   // Expose the generated font through a reusable CSS custom property.
   variable: "--font-lora",
 });
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  title: {
+    default: "Sacrament Meetings | Osigwe Ward",
+    template: "%s | Sacrament Meetings",
+  },
+  description: "Browse and manage the Osigwe Ward sacrament meeting schedule and agendas.",
+  openGraph: {
+    type: "website",
+    siteName: "Sacrament Meetings",
+    title: "Sacrament Meetings | Osigwe Ward",
+    description: "Browse the Osigwe Ward sacrament meeting schedule and agendas.",
+  },
+};
 
 // Wrap each route in the shared HTML shell.
 export default function RootLayout({

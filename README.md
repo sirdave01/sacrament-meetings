@@ -1,5 +1,20 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Authentication setup
+
+The meeting-management routes use one owner account configured locally. Add these values to `.env.local`:
+
+```env
+AUTH_SECRET=your-generated-auth-secret
+AUTH_ADMIN_EMAIL=admin@example.com
+AUTH_ADMIN_PASSWORD_HASH=your-bcrypt-hash
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+Generate an Auth.js secret with `npx auth secret`. Generate a bcrypt password hash with `node -e "require('bcryptjs').hash(process.argv[1], 12).then(console.log)" "your-password"`, then use the output as `AUTH_ADMIN_PASSWORD_HASH`. Keep `.env.local` private. In production, set `NEXT_PUBLIC_SITE_URL` to the canonical HTTPS origin.
+
+Authentication uses Auth.js Credentials with a JWT session. The admin login is available at `/login`; meeting creation and editing require a session. The site-wide Open Graph image is `app/opengraph-image.png`.
+
 ## Getting Started
 
 First, run the development server:

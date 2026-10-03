@@ -3,6 +3,7 @@ import Image from "next/image";
 
 // Reuse the same compact summary card used by the meetings index.
 import MeetingCard from "@/components/MeetingCard";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 
 // Load meeting records through the shared database layer.
 import { getAllMeetings } from "@/lib/meetings-db";
@@ -12,6 +13,7 @@ export default async function Home() {
 
     // Read the latest meetings from the database before building the summary list.
     const meetings = await getAllMeetings();
+    const canManage = await isAuthorizedAdmin();
 
     return (
         /* Keep the home page content centered and aligned with the rest of the app. */
@@ -21,10 +23,11 @@ export default async function Home() {
                 {/* Place the site mark beside the main page heading. */}
                 <div className="flex items-center gap-4">
                     <Image
-                      src="/window.svg"
-                      alt="Meeting schedule icon"
+                                            src="/apple-icon.png"
+                                            alt="Sacrament meeting planner icon"
                       width={64}
                       height={64}
+                                            className="rounded-xl"
                     />
                     <h1 className="text-4xl font-bold">Sacrament Meetings</h1>
                 </div>
@@ -41,7 +44,7 @@ export default async function Home() {
                 <div className="grid gap-4 md:grid-cols-2">
                     {/* Stable IDs let React keep each card associated with its meeting. */}
                     {meetings.map((meeting) => (
-                        <MeetingCard key={meeting.id} meeting={meeting} />
+                        <MeetingCard key={meeting.id} meeting={meeting} canManage={canManage} />
                     ))}
                 </div>
             </section>
