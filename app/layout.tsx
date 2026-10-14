@@ -13,6 +13,7 @@ import Header from "@/components/Header";
 
 // Keep the site footer consistent across every route.
 import Footer from "@/components/Footer";
+import { isAuthorizedAdmin } from "@/lib/admin-auth";
 
 // Load the app-wide font once so every page shares the same typography.
 const lora = Lora({
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 // Wrap each route in the shared HTML shell.
-export default function RootLayout({
+export default async function RootLayout({
 
   children,
 
@@ -47,6 +48,7 @@ export default function RootLayout({
   children: ReactNode;
 
 }>) {
+  const isAdminAuthenticated = await isAuthorizedAdmin();
 
   return (
     // Declare document language for browsers and assistive technology.
@@ -55,7 +57,7 @@ export default function RootLayout({
       <body className={lora.className}>
         
         {/* Global shell for every route: header, page-specific content, footer. */}
-        <Header />
+        <Header isAdminAuthenticated={isAdminAuthenticated} />
         
         {/* Render whichever page or nested layout matches the current URL. */}
         {children}

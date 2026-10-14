@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { AuthError } from "next-auth";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { requireAdminSession } from "@/lib/admin-auth";
 
 import {
@@ -92,6 +92,10 @@ export async function authenticate(_previousState: string | undefined, formData:
         }
         throw error;
     }
+}
+
+export async function signOutFromNavigation() {
+    await signOut({ redirectTo: "/" });
 }
 
 // Read named controls from FormData and normalize the optional checkbox value.

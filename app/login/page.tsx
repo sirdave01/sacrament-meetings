@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 	return (
 		<main className="mx-auto max-w-md px-4 py-16">
 			<h1 className="mb-2 text-3xl font-bold">Admin Sign In</h1>
-			<p className="mb-8 text-gray-700">Sign in to manage meeting schedules.</p>
+			<p className="mb-8 text-white">Sign in to manage meeting schedules.</p>
 			<LoginForm callbackUrl={callbackUrl} />
 		</main>
 	);

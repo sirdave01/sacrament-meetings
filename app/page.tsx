@@ -33,7 +33,7 @@ export default async function Home() {
                 </div>
                 {/* Briefly describe what selecting a card does. */}
                 {/* Use dark copy on the default white page background for readable contrast. */}
-                <p className="mt-2 text-gray-800 text-lg">
+                <p className="mt-2 text-white text-lg">
                     Select a meeting to view its complete agenda.
                 </p>
             </section>

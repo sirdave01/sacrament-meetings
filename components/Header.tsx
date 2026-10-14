@@ -20,7 +20,7 @@ const subscribeToDate = () => () => {};
 const getServerDate = () => "Today";
 
 // Render the shared site identity and primary navigation.
-export default function Header() {
+export default function Header({ isAdminAuthenticated }: { isAdminAuthenticated: boolean }) {
     // Switch from the server snapshot to the browser's localized date after hydration.
     const currentDate = useSyncExternalStore(subscribeToDate, getCurrentDate, getServerDate);
 
@@ -44,7 +44,7 @@ export default function Header() {
             <nav className="mx-auto mt-4 flex max-w-4xl items-center justify-between">
 
                 {/* Keep active route indication consistent across the site. */}
-                <NavLinks />
+                <NavLinks isAdminAuthenticated={isAdminAuthenticated} />
                 
             </nav>
             

@@ -18,7 +18,7 @@ export default function LoginForm({ callbackUrl }: { callbackUrl: string }) {
 					type="email"
 					autoComplete="username"
 					required
-					className="w-full rounded border border-gray-400 px-3 py-2 text-gray-950"
+					className="w-full rounded border border-gray-400 px-3 py-2 text-white"
 				/>
 			</div>
 			<div>
@@ -30,7 +30,7 @@ export default function LoginForm({ callbackUrl }: { callbackUrl: string }) {
 					autoComplete="current-password"
 					minLength={8}
 					required
-					className="w-full rounded border border-gray-400 px-3 py-2 text-gray-950"
+					className="w-full rounded border border-gray-400 px-3 py-2 text-white"
 				/>
 			</div>
 			<button

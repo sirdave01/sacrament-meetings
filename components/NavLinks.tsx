@@ -2,6 +2,7 @@
 
 // Use Next's client-side links for app navigation.
 import Link from "next/link";
+import { signOutFromNavigation } from "@/lib/actions";
 
 // Read the active URL so navigation can reflect the current section.
 import { usePathname } from "next/navigation";
@@ -15,12 +16,11 @@ const links = [
     { href: "/", label: "Home" },
     
     { href: "/meetings", label: "All Meetings" },
-    { href: "/login", label: "Admin Sign In" },
     
 ];
 
 // Mark the current top-level destination for visual and assistive-technology users.
-export default function NavLinks() {
+export default function NavLinks({ isAdminAuthenticated }: { isAdminAuthenticated: boolean }) {
 
     // The pathname changes automatically as the user navigates between routes.
     const pathname = usePathname();
@@ -60,6 +60,24 @@ export default function NavLinks() {
                 );
 
             })}
+
+            <li>
+                {isAdminAuthenticated ? (
+                    <form action={signOutFromNavigation}>
+                        <button type="submit" className="text-white hover:text-gray-300">
+                            Sign Out
+                        </button>
+                    </form>
+                ) : (
+                    <Link
+                        href="/login"
+                        aria-current={pathname === "/login" ? "page" : undefined}
+                        className={pathname === "/login" ? "font-semibold text-yellow-300 underline" : "text-white hover:text-gray-300"}
+                    >
+                        Admin Sign In
+                    </Link>
+                )}
+            </li>
 
         </ul>
 

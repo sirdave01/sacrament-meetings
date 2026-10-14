@@ -51,7 +51,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
       )}
 
       {/* Use dark text because the page background is light. */}
-      <span aria-current="page" className="text-sm font-medium text-gray-800">
+      <span aria-current="page" className="text-sm font-medium text-white">
         Page {currentPage} of {totalPages}
       </span>
 
